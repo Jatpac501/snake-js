@@ -31,8 +31,8 @@ function draw() {
         score++;
         scoreStr.innerHTML = 'Очки:' + score;
         document.title = `SNAKE.SCORE(${score})`;
-        if (score % 3 == 0) {
-            snakeSpeed *= 0.9;
+        if (score % 5 == 0) {
+            snakeSpeed *= 0.95;
             clearInterval(gameLoop);
             gameLoop = setInterval(draw, snakeSpeed);
         }
