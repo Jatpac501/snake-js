@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap')
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+    font-size: 36px
+    font-family: 'Press Start 2P', cursive
+    color: #fff
+    
+body
+    background: #000
+    width: 100vw
+    height: 100vh
+    display: flex
+    align-items: center
+    justify-content: center
+#canvas
+    background: #000
+    border: 5px solid #fff
+    transition: all 1s, width 1s 1s
+    width: 800px
+    height: 800px
+.scoreContainer, .controlContainer
+    text-align: center
+    width: 300px
+    padding: 10px
+    border: 5px solid #fff
+    margin: 20px
+    background: transparent
+.gameOver
+    text-shadow: 0 0 8px #f00
+    position: absolute
+    opacity: 0
+    animation: gameOver 2s ease infinite
+    transition: 1s
+@keyframes gameOver
+    0%, 100%
+        filter: drop-shadow(0 0 0px #f00)
+        text-shadow: 0 0 8px #f00
+    50%
+        filter: drop-shadow(0 0 12px #f00)
+        text-shadow: 0 0 12px #f00
