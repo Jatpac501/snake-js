@@ -53,8 +53,18 @@ body {
     text-shadow: 0 0 12px #f00;
   }
 }
-@media (max-width: 1300px) {
+@media (max-width: 1600px) {
   body {
     transform: scale(0.8);
+  }
+}
+@media (max-width: 1280px) {
+  body {
+    transform: scale(0.6);
+  }
+}
+@media (max-width: 960px) {
+  body {
+    transform: scale(0.4);
   }
 }/*# sourceMappingURL=style.css.map */
