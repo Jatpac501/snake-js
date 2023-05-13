@@ -51,4 +51,9 @@ body {
     filter: drop-shadow(0 0 12px #f00);
     text-shadow: 0 0 12px #f00;
   }
+}
+@media (max-width: 1300px) {
+  body {
+    transform: scale(0.8);
+  }
 }/*# sourceMappingURL=style.css.map */
