@@ -3,6 +3,7 @@ let gameLoop = setInterval(draw, snakeSpeed);
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const gameOver = document.querySelector(".gameOver");
+const controls = document.querySelector('.controls');
 let snake = [
     { x: 300, y: 500 },
     { x: 300, y: 500 },
@@ -61,27 +62,45 @@ function drawSnake(snakePart) {
     }
 }
 document.addEventListener("keydown", (e) => {
+    key(e.key);
+});
+controls.addEventListener("click", (e) => {
+    let pressKey = e.target.classList.value;
+    if (pressKey == 'w key') {
+        key('ArrowUp');
+    }
+    if (pressKey == 'a key') {
+        key('ArrowLeft');
+    }
+    if (pressKey == 's key') {
+        key('ArrowDown');
+    }
+    if (pressKey == 'd key') {
+        key('ArrowRight');
+    }
+});
+const key = function checkKeys(e) {
     const goingUp = dy == -50;
     const goingDown = dy == 50;
     const goingLeft = dx == -50;
     const goingRight = dx == 50;
-    if (e.key == 'ArrowLeft' && !goingRight) {
+    if (e == 'ArrowLeft' && !goingRight) {
         dx = -50;
         dy = 0;
     }
-    if (e.key == 'ArrowUp' && !goingDown) {
+    if (e == 'ArrowUp' && !goingDown) {
         dx = 0;
         dy = -50;
     }
-    if (e.key == 'ArrowRight' && !goingLeft) {
+    if (e== 'ArrowRight' && !goingLeft) {
         dx = 50;
         dy = 0;
     }
-    if (e.key == 'ArrowDown' && !goingUp) {
+    if (e == 'ArrowDown' && !goingUp) {
         dx = 0;
         dy = 50;
     }
-});
+}
 function checkCollision(head, snakeBody) {
     return snakeBody.some((snakePart) => snakePart.x == head.x && snakePart.y == head.y);
 }

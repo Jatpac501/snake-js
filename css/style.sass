@@ -14,6 +14,13 @@ body
     align-items: center
     justify-content: center
     overflow: hidden
+.main
+    background: #000
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
 #canvas
     background: #000
     border: 5px solid #fff
@@ -40,12 +47,40 @@ body
     50%
         filter: drop-shadow(0 0 12px #f00)
         text-shadow: 0 0 12px #f00
+.controls
+    width: 300px
+    height: 200px
+    right: 0
+    bottom: 0
+    position: absolute
+    display: flex
+    flex-wrap: wrap
+.key
+    cursor: pointer
+    border: 5px solid #fff
+    text-align: center
+    font-size: 62px
+    width: 100px
+    height: 100px
+    transition: .3s
+    &:hover
+        background: rgba(255,255,255,.2)
+.w
+    width: 300px
 @media (max-width: 1600px) or (max-height: 900px)
-    body
+    .main
+        transform: scale(.8) 
+@media (max-width: 1280px) or (max-height: 400px)
+    .main
+        transform: scale(.6) 
+    .controls
         transform: scale(.8)
-@media (max-width: 1280px)
-    body
-        transform: scale(.6) or (max-height: 400px)
-@media (max-width: 960px)
-    body
+@media (max-width: 960px)   
+    .main  
+        position: absolute
+        top: -100px
+        flex-direction: column
         transform: scale(.4)
+    .controls
+        right: auto
+        transform: scale(.8)
