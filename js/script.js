@@ -4,20 +4,13 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const gameOver = document.querySelector(".gameOver");
 const controls = document.querySelector('.controls');
-let snake = [
-    { x: 300, y: 500 },
-    { x: 300, y: 500 },
-    { x: 300, y: 500 },
-    { x: 300, y: 500 },
-    { x: 300, y: 500 }
-];
+let snake = Array.from({length: 5}, () => ({ x: 350, y: 350 }));
 let dx = 50;
 let dy = 0;
-let foodX;
-let foodY;
+let foodX = Math.floor(Math.random() * (canvas.width / 50)) * 50;
+let foodY = Math.floor(Math.random() * (canvas.height / 50)) * 50;
 let score = 0;
 const scoreStr = document.querySelector('.scoreContainer');
-food();
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.shadowColor = "#f00";
@@ -28,19 +21,20 @@ function draw() {
     const head = { x: snake[0].x + dx, y: snake[0].y + dy };
     snake.unshift(head);
     if (head.x == foodX && head.y == foodY) {
-        food();
+        foodX = Math.floor(Math.random() * (canvas.width / 50)) * 50;
+        foodY = Math.floor(Math.random() * (canvas.height / 50)) * 50;
         score++;
         scoreStr.innerHTML = 'Очки:' + score;
         document.title = `SNAKE.SCORE(${score})`;
         if (score % 5 == 0) {
-            snakeSpeed *= 0.95;
+            snakeSpeed *= 0.9;
             clearInterval(gameLoop);
             gameLoop = setInterval(draw, snakeSpeed);
         }
     } else {
         snake.pop();
     }
-    if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || checkCollision(head, snake.slice(1))) {
+    if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || bodyCheck(head, snake.slice(1))) {
         clearInterval(gameLoop);
         document.title = `SNAKE.GAMEOVER`;
         gameOver.style.opacity = '1';
@@ -56,56 +50,34 @@ function drawSnake(snakePart) {
     ctx.shadowBlur = 16;
     ctx.fillStyle = "#fff";
     ctx.fillRect(snakePart.x, snakePart.y, 50, 50);
-    if (snakePart !== snake[0]) {
-        ctx.fillStyle = "#000";
-        ctx.fillRect(snakePart.x+3, snakePart.y+3, 44, 44);
-    }
+    snakePart !== snake[0] ? ctx.fillStyle = "#000" : null;
+    ctx.fillRect(snakePart.x + 3, snakePart.y + 3, 44, 44);
 }
 document.addEventListener("keydown", (e) => {
     key(e.key);
+    console.log(e.key)
+    if (e.code=== 'KeyR') {
+        location.reload();
+    }
 });
 controls.addEventListener("click", (e) => {
-    let pressKey = e.target.classList.value;
-    if (pressKey == 'w key') {
-        key('ArrowUp');
-    }
-    if (pressKey == 'a key') {
-        key('ArrowLeft');
-    }
-    if (pressKey == 's key') {
-        key('ArrowDown');
-    }
-    if (pressKey == 'd key') {
-        key('ArrowRight');
-    }
+    const pressKey = e.target.classList.value;
+    pressKey === 'w key' ? key('ArrowUp') :
+    pressKey === 'a key' ? key('ArrowLeft') :
+    pressKey === 's key' ? key('ArrowDown') :
+    pressKey === 'd key' ? key('ArrowRight') : null;
 });
-const key = function checkKeys(e) {
-    const goingUp = dy == -50;
-    const goingDown = dy == 50;
-    const goingLeft = dx == -50;
-    const goingRight = dx == 50;
-    if (e == 'ArrowLeft' && !goingRight) {
-        dx = -50;
-        dy = 0;
-    }
-    if (e == 'ArrowUp' && !goingDown) {
-        dx = 0;
-        dy = -50;
-    }
-    if (e== 'ArrowRight' && !goingLeft) {
-        dx = 50;
-        dy = 0;
-    }
-    if (e == 'ArrowDown' && !goingUp) {
-        dx = 0;
-        dy = 50;
-    }
+const key = async function checkKeys(e) {
+    await new Promise((pass) => setTimeout(pass, snakeSpeed/2));
+    const up = dy == -50;
+    const down = dy == 50;
+    const left = dx == -50;
+    const right = dx == 50;
+    e === 'ArrowLeft' && !right ? (dx = -50, dy = 0) :
+    e === 'ArrowUp' && !down ? (dx = 0, dy = -50) :
+    e === 'ArrowRight' && !left ? (dx = 50, dy = 0) :
+    e === 'ArrowDown' && !up ? (dx = 0, dy = 50) : null;
 }
-function checkCollision(head, snakeBody) {
+function bodyCheck(head, snakeBody) {
     return snakeBody.some((snakePart) => snakePart.x == head.x && snakePart.y == head.y);
 }
-function food() {
-    foodX = Math.floor(Math.random() * (canvas.width / 50)) * 50;
-    foodY = Math.floor(Math.random() * (canvas.height / 50)) * 50;
-}
-
